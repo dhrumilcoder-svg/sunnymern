@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MCA Test - 100 Questions</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .question {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>MCA Test (Python + SQL + ML)</h1>
+
+    <form id="quizForm"></form>
+
+    <button onclick="submitTest()">Submit Test</button>
+
+    <div id="result"></div>
+
+    <script>
+
+        const questions = [
+            // ===== PYTHON 1-35 =====
+            { q: "1. Python is?", options: ["Compiled", "Interpreted", "Both", "None"], answer: 1 },
+            { q: "2. type([])?", options: ["list", "tuple", "dict", "set"], answer: 0 },
+            { q: "3. Immutable?", options: ["list", "dict", "set", "tuple"], answer: 3 },
+            { q: "4. == checks?", options: ["memory", "value", "address", "none"], answer: 1 },
+            { q: "5. bool('')?", options: ["True", "False", "Error", "None"], answer: 1 },
+            { q: "6. append()?", options: ["add one", "add many", "remove", "sort"], answer: 0 },
+            { q: "7. set?", options: ["duplicates", "ordered", "unique", "index"], answer: 2 },
+            { q: "8. 2**3**2?", options: ["64", "512", "256", "128"], answer: 1 },
+            { q: "9. dict lookup?", options: ["O(n)", "O(log n)", "O(1)", "O(n2)"], answer: 2 },
+            { q: "10. lambda?", options: ["named", "anonymous", "class", "module"], answer: 1 },
+
+            { q: "11. map()?", options: ["list", "iterator", "tuple", "string"], answer: 1 },
+            { q: "12. filter()?", options: ["transform", "filter", "sort", "merge"], answer: 1 },
+            { q: "13. generator uses?", options: ["return", "yield", "break", "pass"], answer: 1 },
+            { q: "14. GIL?", options: ["IO", "CPU", "memory", "disk"], answer: 1 },
+            { q: "15. list comprehension?", options: ["speed", "readability", "both", "none"], answer: 2 },
+            { q: "16. exception keyword?", options: ["catch", "except", "error", "tryonly"], answer: 1 },
+            { q: "17. append mode?", options: ["r", "w", "a", "x"], answer: 2 },
+            { q: "18. __init__?", options: ["destructor", "constructor", "var", "module"], answer: 1 },
+            { q: "19. Python type?", options: ["static", "dynamic", "both", "none"], answer: 1 },
+            { q: "20. is operator?", options: ["value", "memory", "type", "none"], answer: 1 },
+
+            { q: "21. tuple?", options: ["mutable", "immutable", "dynamic", "none"], answer: 1 },
+            { q: "22. decorator?", options: ["wrapper", "class", "loop", "object"], answer: 0 },
+            { q: "23. range()?", options: ["list", "iterator", "set", "dict"], answer: 1 },
+            { q: "24. pass?", options: ["stop", "skip", "do nothing", "break"], answer: 2 },
+            { q: "25. break?", options: ["skip", "exit", "continue", "none"], answer: 1 },
+            { q: "26. continue?", options: ["exit", "skip iteration", "stop", "none"], answer: 1 },
+            { q: "27. len()?", options: ["size", "type", "index", "none"], answer: 0 },
+            { q: "28. list?", options: ["unordered", "ordered", "fixed", "none"], answer: 1 },
+            { q: "29. dict?", options: ["values", "keys", "key-value", "index"], answer: 2 },
+            { q: "30. GC?", options: ["yes", "no", "manual", "none"], answer: 0 },
+
+            { q: "31. yield?", options: ["value", "iterator", "both", "none"], answer: 2 },
+            { q: "32. with?", options: ["loop", "context manager", "class", "function"], answer: 1 },
+            { q: "33. args?", options: ["*args", "**kwargs", "both", "none"], answer: 0 },
+            { q: "34. kwargs?", options: ["*args", "**kwargs", "both", "none"], answer: 1 },
+            { q: "35. slicing?", options: ["cut", "copy", "both", "none"], answer: 2 },
+
+            // ===== SQL 36-70 =====
+            { q: "36. SQL?", options: ["Structured Query Language", "Simple", "Sequential", "None"], answer: 0 },
+            { q: "37. PK?", options: ["duplicate", "unique", "null", "none"], answer: 1 },
+            { q: "38. FK?", options: ["relation", "unique", "index", "none"], answer: 0 },
+            { q: "39. WHERE?", options: ["group", "rows", "columns", "none"], answer: 1 },
+            { q: "40. HAVING?", options: ["group", "rows", "both", "none"], answer: 0 },
+
+            { q: "41. JOIN?", options: ["2", "3", "4", "many"], answer: 2 },
+            { q: "42. LEFT JOIN?", options: ["match", "left+match", "right", "none"], answer: 1 },
+            { q: "43. index?", options: ["insert", "search", "delete", "none"], answer: 1 },
+            { q: "44. view?", options: ["table", "virtual", "index", "none"], answer: 1 },
+            { q: "45. normalization?", options: ["reduce redundancy", "speed", "memory", "none"], answer: 0 },
+
+            { q: "46. 2NF?", options: ["full", "partial", "transitive", "none"], answer: 1 },
+            { q: "47. 3NF?", options: ["partial", "transitive", "full", "none"], answer: 1 },
+            { q: "48. ACID?", options: ["properties", "rules", "index", "none"], answer: 0 },
+            { q: "49. transaction?", options: ["query", "unit", "table", "none"], answer: 1 },
+            { q: "50. deadlock?", options: ["error", "wait", "conflict", "none"], answer: 2 },
+
+            { q: "51. COUNT?", options: ["sum", "count", "avg", "none"], answer: 1 },
+            { q: "52. AVG?", options: ["sum", "avg", "count", "none"], answer: 1 },
+            { q: "53. GROUP?", options: ["sort", "group", "filter", "none"], answer: 1 },
+            { q: "54. subquery?", options: ["nested", "main", "join", "none"], answer: 0 },
+            { q: "55. CTE?", options: ["temp", "index", "join", "none"], answer: 0 },
+
+            { q: "56. window?", options: ["rank", "filter", "insert", "none"], answer: 0 },
+            { q: "57. rank?", options: ["order", "rank", "group", "none"], answer: 1 },
+            { q: "58. delete?", options: ["remove", "drop", "update", "none"], answer: 0 },
+            { q: "59. truncate?", options: ["fast delete", "slow", "update", "none"], answer: 0 },
+            { q: "60. null?", options: ["zero", "empty", "unknown", "none"], answer: 2 },
+
+            { q: "61. index type?", options: ["btree", "hash", "both", "none"], answer: 2 },
+            { q: "62. OLTP?", options: ["analysis", "transaction", "ml", "none"], answer: 1 },
+            { q: "63. OLAP?", options: ["analysis", "transaction", "both", "none"], answer: 0 },
+            { q: "64. partition?", options: ["split table", "join", "index", "none"], answer: 0 },
+            { q: "65. sharding?", options: ["split db", "join", "index", "none"], answer: 0 },
+
+            { q: "66. constraint?", options: ["integrity", "speed", "memory", "none"], answer: 0 },
+            { q: "67. unique?", options: ["dup", "unique", "null", "none"], answer: 1 },
+            { q: "68. not null?", options: ["allow", "not allow", "both", "none"], answer: 1 },
+            { q: "69. default?", options: ["auto", "null", "index", "none"], answer: 0 },
+            { q: "70. trigger?", options: ["auto", "manual", "query", "none"], answer: 0 },
+
+            // ===== ML 71-100 =====
+            { q: "71. ML?", options: ["rule", "data", "static", "none"], answer: 1 },
+            { q: "72. supervised?", options: ["labeled", "unlabeled", "both", "none"], answer: 0 },
+            { q: "73. unsupervised?", options: ["labeled", "unlabeled", "both", "none"], answer: 1 },
+            { q: "74. regression?", options: ["class", "value", "both", "none"], answer: 1 },
+            { q: "75. classification?", options: ["value", "class", "both", "none"], answer: 1 },
+
+            { q: "76. overfit?", options: ["simple", "memorize", "both", "none"], answer: 1 },
+            { q: "77. underfit?", options: ["simple", "complex", "both", "none"], answer: 0 },
+            { q: "78. feature?", options: ["input", "output", "both", "none"], answer: 0 },
+            { q: "79. label?", options: ["input", "output", "both", "none"], answer: 1 },
+            { q: "80. CV?", options: ["split", "eval", "both", "none"], answer: 2 },
+
+            { q: "81. linear?", options: ["class", "reg", "cluster", "none"], answer: 1 },
+            { q: "82. logistic?", options: ["reg", "class", "both", "none"], answer: 1 },
+            { q: "83. tree?", options: ["rule", "random", "none", "both"], answer: 0 },
+            { q: "84. RF?", options: ["one", "many", "none", "both"], answer: 1 },
+            { q: "85. KNN?", options: ["distance", "prob", "tree", "none"], answer: 0 },
+
+            { q: "86. SVM?", options: ["plane", "tree", "cluster", "none"], answer: 0 },
+            { q: "87. NB?", options: ["prob", "distance", "tree", "none"], answer: 0 },
+            { q: "88. kmeans?", options: ["class", "cluster", "reg", "none"], answer: 1 },
+            { q: "89. GD?", options: ["optimize", "class", "cluster", "none"], answer: 0 },
+            { q: "90. regularization?", options: ["reduce", "increase", "none", "both"], answer: 0 },
+
+            { q: "91. precision?", options: ["TP/(TP+FP)", "TP/(TP+FN)", "both", "none"], answer: 0 },
+            { q: "92. recall?", options: ["TP/(TP+FN)", "TP/(TP+FP)", "both", "none"], answer: 0 },
+            { q: "93. f1?", options: ["mean", "harmonic", "sum", "none"], answer: 1 },
+            { q: "94. roc?", options: ["graph", "model", "loss", "none"], answer: 0 },
+            { q: "95. PCA?", options: ["reduce", "increase", "none", "both"], answer: 0 },
+
+            { q: "96. scaling?", options: ["normalize", "random", "none", "both"], answer: 0 },
+            { q: "97. hyperparam?", options: ["learned", "manual", "both", "none"], answer: 1 },
+            { q: "98. pipeline?", options: ["flow", "model", "both", "none"], answer: 0 },
+            { q: "99. drift?", options: ["change", "stable", "none", "both"], answer: 0 },
+            { q: "100. mlops?", options: ["deploy", "lifecycle", "train", "none"], answer: 1 },
+        ];
+
+        // LOAD QUESTIONS
+        const form = document.getElementById("quizForm");
+
+        questions.forEach((q, index) => {
+            let div = document.createElement("div");
+            div.classList.add("question");
+
+            let html = `<p>${q.q}</p>`;
+
+            q.options.forEach((opt, i) => {
+                html += `
+      <label>
+        <input type="radio" name="q${index}" value="${i}">
+        ${opt}
+      </label><br>
+    `;
+            });
+
+            div.innerHTML = html;
+            form.appendChild(div);
+        });
+
+        // RESULT
+        function submitTest() {
+            let score = 0;
+
+            questions.forEach((q, index) => {
+                let selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                }
+            });
+
+            let percent = (score / 100) * 100;
+
+            let grade = "";
+            if (percent >= 80) grade = "Excellent 🎯";
+            else if (percent >= 60) grade = "Good 👍";
+            else if (percent >= 40) grade = "Average 😐";
+            else grade = "Weak ❌";
+
+            document.getElementById("result").innerHTML =
+                `Score: ${score}/100 <br> Percentage: ${percent}% <br> ${grade}`;
+        }
+
+    </script>
+
+</body>
+
+</html>
